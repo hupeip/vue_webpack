@@ -10,7 +10,6 @@ import './assets/css/common.css'
 
 
 Vue.config.debug = true; //开启错误提示
- Vue.config.devtools = true;
 
 Vue.use(vueRouter);
 const router = new vueRouter({
@@ -22,3 +21,5 @@ configRouter(router);
 
 router.start(Vue.extend(App), '#app')
 window.router = router;
+
+console.log(process.env.NODE_ENV);

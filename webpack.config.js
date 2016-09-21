@@ -2,12 +2,14 @@ var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
 module.exports = {
-    entry: {
-        main: './src/main.js',
-        vendors: ['vue', 'vue-router']
-    },
+    // entry: {
+    //     main: './src/main.js',
+    //     vendors: ['vue', 'vue-router']
+    // },
+    entry: ['./src/main.js'],
     output: {
         path: path.join(__dirname, './dist'),
         filename: '[name].js',
@@ -18,6 +20,7 @@ module.exports = {
             { test: /\.vue$/, loader: 'vue' },
             { test: /\.js$/, loader: 'babel', exclude: /node_modules/ },
             { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader' ) },
+            // { test: /\.scss$/, loader: ["style", "css", "sass"] },
             { test: /\.(jpe?g|png|gif)$/i,loaders: [
                 'url?limit=10000&name=images/[hash:8].[name].[ext]',
                 'image-webpack?{progressive:true, optimizationLevel: 7, interlaced: false, pngquant:{quality: "65-90", speed: 4}}'
@@ -42,6 +45,15 @@ module.exports = {
          hash:false
        }),
      new ExtractTextPlugin('[hash:8].style.css', { allChunks: true }),
+     new webpack.DefinePlugin({
+         'process.env': {
+           'NODE_ENV': JSON.stringify('development'),
+          //  'API_URL': JSON.stringify('http://localhost:4001/'),
+         }
+      }),
+      new OpenBrowserPlugin({
+        url: 'http://localhost:4001/home'
+      })
    ],
     resolve: {
         // require时省略的扩展名，如：require('module') 不需要module.js
